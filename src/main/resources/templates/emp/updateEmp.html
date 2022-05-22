@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>Dashboard Template for Bootstrap</title>
+		<!-- Bootstrap core CSS -->
+		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+		<!-- Custom styles for this template -->
+		<link th:href="@{/css/dashboard.css}" rel="stylesheet">
+		<style type="text/css">
+			/* Chart.js */
+			
+			@-webkit-keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			@keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			.chartjs-render-monitor {
+				-webkit-animation: chartjs-render-animation 0.001s;
+				animation: chartjs-render-animation 0.001s;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--头部导航栏-->
+		<div th:replace="~{common/common :: navbar}"></div>
+
+		<div class="container-fluid">
+			<div class="row">
+				<!--侧边栏-->
+				<div th:replace="~{common/common :: sidebar}"></div>
+
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" style="width: 50%;">
+					<h3>编辑员工</h3>
+					<hr>
+					<form th:action="@{/emp}" th:method="post">
+						<!--<input type="hidden" name="_method" th:value="put">-->
+						<input type="hidden" name="id" th:value="${emp.id}">
+						<div class="form-group">
+							<label>员工姓名</label>
+							<input type="text" class="form-control" placeholder="请输入姓名" name="empName" th:value="${emp.empName}">
+						</div>
+						<div class="form-group">
+							<label>邮箱</label>
+							<input type="email" class="form-control" placeholder="请输入邮箱" name="email" th:value="${emp.email}">
+						</div>
+						<div class="form-group">
+							<label>性别</label>
+							<div class="radio">
+								<label>
+									<input type="radio" name="gender" id="man" value="1" th:checked="${emp.gender == 1}">
+									男
+								</label>
+							</div>
+							<div class="radio">
+								<label>
+									<input type="radio" name="gender" id="woman" value="0" th:checked="${emp.gender == 0}">
+									女
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>部门</label>
+							<!--这里我们在controller接受的是一个emp对象,这里的name值就只要写里面的一个属性-->
+							<select class="form-control" name="dept.id">
+								<!--提交的是部门id值-->
+								<option th:each="dept : ${depts}" th:text="${dept.deptName}" th:value="${dept.id}" th:selected="${emp.getDept().getId() == dept.id}">
+
+								</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>出生日期</label>
+							<input type="date" class="form-control" name="birth" th:value="${emp.birth}">
+						</div>
+						<button type="submit" class="btn btn-success">保存</button>
+					</form>
+				</main>
+			</div>
+		</div>
+	</body>
+
+</html>
